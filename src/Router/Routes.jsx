@@ -1,10 +1,11 @@
 import { createBrowserRouter } from "react-router";
 
 import Home from "../Pages/Home";
-import Product from '../Pages/ProductCard';
+
 import Layout from './../layouts/Layout';
 import WishList from "../Pages/WishList";
 import Loader from './../components/Loader';
+import Products from "../Pages/Products";
 
 
 export const router = createBrowserRouter([
@@ -21,7 +22,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/product",
-        element: <Product />,
+        element: <Products />,
       },
       {
         path: "/wishlist",
