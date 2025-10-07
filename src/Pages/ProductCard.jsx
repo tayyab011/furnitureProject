@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
 
 const ProductCard = ({ product }) => {
+  const navigate=useNavigate()
   const {
     name,
     price,
@@ -22,8 +24,8 @@ const ProductCard = ({ product }) => {
           <h2 className="card-title">
             {name}
             <div
-              className={`badge  ${
-                stock ? "badge-success" : "badge-secondary"
+              className={`badge  badge-xs py-3 ${
+                stock ? "badge-success" : "bg-red-600 border-0"
               }`}
             >
               {stock ? "available" : "not available"}
@@ -35,7 +37,12 @@ const ProductCard = ({ product }) => {
             <div className="badge border-0 bg-purple-300 font-bold">
               ${price}
             </div>
-            <div className="btn btn-secondary">Products</div>
+            <div
+              onClick={() => navigate(`/productDetails/${id}`)}
+              className="btn btn-secondary"
+            >
+              Details
+            </div>
           </div>
         </div>
       </div>
