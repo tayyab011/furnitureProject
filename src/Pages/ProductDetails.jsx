@@ -40,9 +40,9 @@ if (existingData) {
         return
     }
 fixedData = [...existingData, filterdProduct];
-}/* else{
+} else{
     fixedData.push(filterdProduct);
-} */
+} 
 
      localStorage.setItem("wishlist", JSON.stringify(fixedData));
     
