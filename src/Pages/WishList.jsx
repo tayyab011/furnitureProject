@@ -3,10 +3,22 @@ import React, { useEffect, useState } from 'react';
 const WishList = () => {
 
     const [wishlist,setWishlist]=useState([])
+  
     useEffect(()=>{
      const existingData=JSON.parse(localStorage.getItem("wishlist"))
      setWishlist(existingData)
     },[])
+
+    const removeWishlist=(id)=>{
+ const remaininData =wishlist.filter(e=>e.id !==id);
+
+ const existingData = JSON.parse(localStorage.getItem("wishlist"));
+ const filLocalData=existingData.filter(e=>e.id !==id)
+ localStorage.setItem("wishlist", JSON.stringify(filLocalData));
+ setWishlist(remaininData);
+ 
+
+    }
     return (
       <div>
         <div className="flex justify-between items-center">
@@ -56,7 +68,7 @@ const WishList = () => {
                   <td>{e.description}</td>
                   <td>${e.price}</td>
                   <th>
-                    <button className="btn btn-error btn-xs">Remove</button>
+                    <button onClick={()=>removeWishlist(e.id)} className="btn btn-error btn-xs">Remove</button>
                   </th>
                 </tr>
               ))}
