@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import Rechart from '../components/Rechart';
 
 const WishList = () => {
 
     const [wishlist,setWishlist]=useState([])
-  
+    const [sort,setSort]=useState("")
+
     useEffect(()=>{
      const existingData=JSON.parse(localStorage.getItem("wishlist"))
      setWishlist(existingData)
@@ -12,11 +14,25 @@ const WishList = () => {
     const removeWishlist=(id)=>{
  const remaininData =wishlist.filter(e=>e.id !==id);
 
+ setWishlist(remaininData);
  const existingData = JSON.parse(localStorage.getItem("wishlist"));
  const filLocalData=existingData.filter(e=>e.id !==id)
  localStorage.setItem("wishlist", JSON.stringify(filLocalData));
- setWishlist(remaininData);
- 
+
+    }
+
+    const handleSort=(data)=>{
+        setSort(data)
+if (data === "lowtohigh") {
+    const lh = [...wishlist].sort((a,b)=>a.price - b.price)
+setWishlist(lh)
+}
+
+
+if (data === "hightolow") {
+  const hl = [...wishlist].sort((a, b) => b.price - a.price);
+  setWishlist(hl);
+}
 
     }
     return (
@@ -24,17 +40,24 @@ const WishList = () => {
         <div className="flex justify-between items-center">
           <h1>WishList {wishlist.length}</h1>
 
-          <button>sort</button>
+          <div className="dropdown my-5">
+            <div tabIndex={0} role="button" className="btn m-1">
+              sort by : {sort && sort}
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+            >
+              <li>
+                <a onClick={() => handleSort("lowtohigh")}>Low to High</a>
+              </li>
+              <li>
+                <a onClick={() => handleSort("hightolow")}>High to Low</a>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        {/*  <div className="">
-          {wishlist.map((e) => (
-            <div className="flex">
-              <img className="w-[20%]" src={e.image} />
-              <h3>{e.name}</h3>
-            </div>
-          ))}
-        </div> */}
         <div className="overflow-x-auto">
           <table className="table">
             {/* head */}
@@ -68,12 +91,21 @@ const WishList = () => {
                   <td>{e.description}</td>
                   <td>${e.price}</td>
                   <th>
-                    <button onClick={()=>removeWishlist(e.id)} className="btn btn-error btn-xs">Remove</button>
+                    <button
+                      onClick={() => removeWishlist(e.id)}
+                      className="btn btn-error btn-xs"
+                    >
+                      Remove
+                    </button>
                   </th>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+
+        <div className=" md:w-[70%] w-full mx-auto ">
+          <Rechart data={wishlist} />
         </div>
       </div>
     );
